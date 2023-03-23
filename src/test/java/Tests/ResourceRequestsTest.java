@@ -3,6 +3,7 @@ package Tests;
 import RequestObject.RequestHelper;
 import RequestObject.RequestMethodType;
 import RequestObject.RequestURLType;
+import ResponseObject.ResponseBodyType;
 import ResponseObject.ResponseCodeType;
 import ResponseObject.ResponseHelper;
 import ShareData.BaseTest;
@@ -18,7 +19,8 @@ public class ResourceRequestsTest extends BaseTest {
         Response response = requestHelper.performRequest(RequestMethodType.GET_METHOD, baseURL + RequestURLType.GET_RESOURCE_LIST, null);
 
         responseHelper = new ResponseHelper(response);
-        responseHelper.validateResponseCode(ResponseCodeType.STATUS_200);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_RESOURCES, ResponseCodeType.STATUS_200);
+        responseHelper.printResponseBody();
     }
 
 
@@ -28,7 +30,8 @@ public class ResourceRequestsTest extends BaseTest {
         Response response = requestHelper.performRequest(RequestMethodType.GET_METHOD, baseURL + RequestURLType.GET_RESOURCE_LIST_SINGLE, null);
 
         responseHelper = new ResponseHelper(response);
-        responseHelper.validateResponseCode(ResponseCodeType.STATUS_200);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_RESOURCE, ResponseCodeType.STATUS_200);
+        responseHelper.printResponseBody();
     }
 
     @Test(priority = 3)
@@ -37,6 +40,7 @@ public class ResourceRequestsTest extends BaseTest {
         Response response = requestHelper.performRequest(RequestMethodType.GET_METHOD, baseURL + RequestURLType.GET_RESOURCE_NOT_FOUND, null);
 
         responseHelper = new ResponseHelper(response);
-        responseHelper.validateResponseCode(ResponseCodeType.STATUS_404);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_RESOURCE, ResponseCodeType.STATUS_404);
+        responseHelper.printResponseBody();
     }
 }

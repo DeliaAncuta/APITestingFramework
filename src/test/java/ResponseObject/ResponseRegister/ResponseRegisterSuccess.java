@@ -1,18 +1,19 @@
-package ResponseObject.ResponseLogin;
+package ResponseObject.ResponseRegister;
 
 import ResponseObject.ResponseValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.testng.Assert;
 
-
-public class ResponseLoginSuccess implements ResponseValidator {
+public class ResponseRegisterSuccess implements ResponseValidator {
 
     @JsonProperty("token")
     private String Token;
 
+    @JsonProperty("id")
+    private Integer Id;
 
     public void validateResponse() {
         Assert.assertNotNull(Token);
+        Assert.assertNotNull(Id);
     }
-
 }

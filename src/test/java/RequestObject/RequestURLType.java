@@ -17,4 +17,6 @@ public class RequestURLType {
     //LoginRequest
     public static String POST_LOGIN = "/api/login";
 
+    public static String POST_REGISTER = "/api/register";
+
 }

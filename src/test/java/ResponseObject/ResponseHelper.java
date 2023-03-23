@@ -2,6 +2,10 @@ package ResponseObject;
 
 import ResponseObject.ResponseLogin.ResponseLoginFailed;
 import ResponseObject.ResponseLogin.ResponseLoginSuccess;
+import ResponseObject.ResponseRegister.ResponseRegisterFailed;
+import ResponseObject.ResponseRegister.ResponseRegisterSuccess;
+import ResponseObject.ResponseResource.ResponseResourceSuccess;
+import ResponseObject.ResponseResources.ResponseResourcesSuccess;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.Assert;
@@ -21,32 +25,67 @@ public class ResponseHelper {
         Assert.assertEquals(response.getStatusCode(), (int) expected); //am facut asta ca aternativa la sugestie intelig
     }
 
-    public void validateResponse(String ResponseType, Integer ResponseCode){
+    public void validateResponse(String ResponseType, Integer ResponseCode) {
         System.out.println(response.getStatusCode());
         Assert.assertEquals(response.getStatusCode(), (int) ResponseCode);
-        if(ResponseType.equals(ResponseBodyType.RESPONSE_LOGIN)){
-            switch (ResponseCode){
+        //login
+        if (ResponseType.equals(ResponseBodyType.RESPONSE_LOGIN)) {
+            switch (ResponseCode) {
                 case 200:
                     ResponseLoginSuccess ResponseSuccess = response.getBody().as(ResponseLoginSuccess.class);
                     ResponseSuccess.validateResponse();
                     break;
                 case 400:
                     ResponseLoginFailed ResponseFailed = response.getBody().as(ResponseLoginFailed.class);
-                    ResponseFailed.ValidateResponse();
+                    ResponseFailed.validateResponse();
                     break;
             }
 
         }
+
+        //Register
+        if (ResponseType.equals(ResponseBodyType.RESPONSE_REGISTER)) {
+            switch (ResponseCode) {
+                case 200:
+                    ResponseRegisterSuccess ResponseRegisterSuccess = response.getBody().as(ResponseRegisterSuccess.class);
+                    ResponseRegisterSuccess.validateResponse();
+                    break;
+                case 400:
+                    ResponseRegisterFailed ResponseRegisterFailed = response.getBody().as(ResponseRegisterFailed.class);
+                    ResponseRegisterFailed.validateResponse();
+                    break;
+            }
+        }
+
+        //Resources and Resource
+
+        if(ResponseType.equals(ResponseBodyType.RESPONSE_RESOURCES)){
+            switch (ResponseCode) {
+                case 200:
+                    ResponseResourcesSuccess ResponseResourceSuccess = response.getBody().as(ResponseResourcesSuccess.class);
+                    ResponseResourceSuccess.validateResponse();
+                    break;
+            }
+        }
+
+        if(ResponseType.equals(ResponseBodyType.RESPONSE_RESOURCE)){
+            switch (ResponseCode) {
+                case 200:
+                    ResponseResourceSuccess ResponseResourcesSuccess = response.getBody().as(ResponseResourceSuccess.class);
+                    ResponseResourcesSuccess.validateResponse();
+                    break;
+                case 400:
+                    Assert.assertNotNull(response);
+                    break;
+            }
+        }
+
+
     }
 
-
-    public void printResponseBody(){
-        ResponseBody body = response.getBody();
-        System.out.println(body.asString());
-    }
-
-
-
-
+        public void printResponseBody () {
+            ResponseBody body = response.getBody();
+            System.out.println(body.asString());
+        }
 
 }
