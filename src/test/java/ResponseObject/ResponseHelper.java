@@ -8,6 +8,7 @@ import ResponseObject.ResponseResource.ResponseResourceSuccess;
 import ResponseObject.ResponseResources.ResponseResourcesSuccess;
 import ResponseObject.ResponseUser.RespinsePutPatchUser;
 import ResponseObject.ResponseUser.ResponsePostUser;
+import ResponseObject.ResponseUsers.ResponseUsersSuccess;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.Assert;
@@ -93,6 +94,18 @@ public class ResponseHelper {
                     ResponsePutPatchUser.validateResponse();
                     break;
                 case 204:
+                    Assert.assertNotNull(response.getBody());
+                    break;
+            }
+        }
+
+        if(ResponseType.equals(ResponseBodyType.RESPONSE_USERS)){
+            switch (ResponseCode) {
+                case 200:
+                    ResponseUsersSuccess ResponseUsers = response.getBody().as(ResponseUsersSuccess.class);
+                    ResponseUsers.validateResponse();
+                    break;
+                case 404:
                     Assert.assertNotNull(response.getBody());
                     break;
             }

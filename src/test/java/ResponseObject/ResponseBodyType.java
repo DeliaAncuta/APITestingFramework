@@ -10,4 +10,6 @@ public class ResponseBodyType {
     public static String RESPONSE_RESOURCE = "Resource";
 
     public static String RESPONSE_USER = "User";
+
+    public static String RESPONSE_USERS = "Users";
 }
