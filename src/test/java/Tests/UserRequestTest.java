@@ -1,5 +1,13 @@
 package Tests;
 
+import RequestObject.RequestLogin.RequestLogin;
+import RequestObject.RequestMethodType;
+import RequestObject.RequestURLType;
+import RequestObject.RequestUser.RequestUser;
+import ResponseObject.ResponseBodyType;
+import ResponseObject.ResponseCodeType;
+import ResponseObject.ResponseHelper;
+import ShareData.BaseTest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
@@ -8,81 +16,53 @@ import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class UserRequestTest {
+public class UserRequestTest extends BaseTest {
 
     @Test(priority = 1)
     public void postUserTest(){
-        //Header
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", "application/json" );
 
-        //Body
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "morpheus");
-        requestBody.put("job", "leader");
-        request.body(requestBody.toString());  //trebuie trimis un string
+        RequestUser requestUser = new RequestUser.RequestUserBuilder().name("morpheus").job("leader").build();
+        Response response = requestHelper.performRequest(RequestMethodType.POST_METHOD, baseURL+ RequestURLType.POST_USER, requestUser);
 
-        //Response
-        Response response = request.post("https://reqres.in/api/users");
-        ResponseBody body = response.getBody();
-        System.out.println(body.asString());
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 201);
+        responseHelper = new ResponseHelper(response);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_USER, ResponseCodeType.STATUS_201);
+        responseHelper.printResponseBody();
     }
 
     @Test(priority = 2)
     public void putUserTest(){
-        //Header
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", "application/json" );
 
-        //Body
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "morpheus");
-        requestBody.put("job", "zion resident");
-        request.body(requestBody.toString());  //trebuie trimis un string
+        RequestUser requestUser = new RequestUser.RequestUserBuilder().name("morpheus").job("leader").build();
+        Response response = requestHelper.performRequest(RequestMethodType.PUT_METHOD, baseURL+ RequestURLType.PUT_PATCH_DELETE_USER, requestUser);
 
-        //Response
-        Response response = request.put("https://reqres.in/api/users/2");
-        ResponseBody body = response.getBody();
-        System.out.println(body.asString());
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 200);
+        responseHelper = new ResponseHelper(response);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_USER, ResponseCodeType.STATUS_200);
+        responseHelper.printResponseBody();
+
     }
 
     @Test(priority = 3)
     public void patchUserTest(){
-        //Header
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", "application/json" );
 
-        //Body
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "morpheus");
-        requestBody.put("job", "zion resident");
-        request.body(requestBody.toString());  //trebuie trimis un string
+        RequestUser requestUser = new RequestUser.RequestUserBuilder().name("morpheus").job("zion resident").build();
+        Response response = requestHelper.performRequest(RequestMethodType.PATCH_METHOD, baseURL+ RequestURLType.PUT_PATCH_DELETE_USER, requestUser);
 
-        //Response
-        Response response = request.patch("https://reqres.in/api/users/2");
-        ResponseBody body = response.getBody();
-        System.out.println(body.asString());
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 200);
+        responseHelper = new ResponseHelper(response);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_USER, ResponseCodeType.STATUS_200);
+        responseHelper.printResponseBody();
+
+
     }
 
     @Test(priority = 4)
     public void deleteUserTest(){
-        //Header
-        RequestSpecification request = RestAssured.given();
 
-        //Body
+        Response response = requestHelper.performRequest(RequestMethodType.DELETE_METHOD, baseURL+ RequestURLType.PUT_PATCH_DELETE_USER, null);
 
-        //Response
-        Response response = request.delete("https://reqres.in/api/users/2");
-        ResponseBody body = response.getBody();
-        System.out.println(body.asString());
-        System.out.println(response.getStatusCode());
-        Assert.assertEquals(response.getStatusCode(), 204);
+        responseHelper = new ResponseHelper(response);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_USER, ResponseCodeType.STATUS_204);
+        responseHelper.printResponseBody();
+
     }
 
 

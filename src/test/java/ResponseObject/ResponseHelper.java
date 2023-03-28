@@ -6,6 +6,8 @@ import ResponseObject.ResponseRegister.ResponseRegisterFailed;
 import ResponseObject.ResponseRegister.ResponseRegisterSuccess;
 import ResponseObject.ResponseResource.ResponseResourceSuccess;
 import ResponseObject.ResponseResources.ResponseResourcesSuccess;
+import ResponseObject.ResponseUser.RespinsePutPatchUser;
+import ResponseObject.ResponseUser.ResponsePostUser;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.Assert;
@@ -80,12 +82,26 @@ public class ResponseHelper {
             }
         }
 
+        if(ResponseType.equals(ResponseBodyType.RESPONSE_USER)){
+            switch (ResponseCode) {
+                case 201:
+                    ResponsePostUser ResponseUser = response.getBody().as(ResponsePostUser.class);
+                    ResponseUser.validateResponse();
+                    break;
+                case 200:
+                    RespinsePutPatchUser ResponsePutPatchUser = response.getBody().as(RespinsePutPatchUser.class);
+                    ResponsePutPatchUser.validateResponse();
+                    break;
+                case 204:
+                    Assert.assertNotNull(response.getBody());
+                    break;
+            }
+        }
+
 
     }
-
         public void printResponseBody () {
             ResponseBody body = response.getBody();
             System.out.println(body.asString());
         }
-
 }

@@ -1,6 +1,5 @@
 package Tests;
 
-import RequestObject.RequestHelper;
 import RequestObject.RequestMethodType;
 import RequestObject.RequestURLType;
 import ResponseObject.ResponseBodyType;
