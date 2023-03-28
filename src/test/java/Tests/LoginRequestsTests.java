@@ -31,8 +31,11 @@ public class LoginRequestsTests extends BaseTest {
 
         RequestLogin requestLoginUnsuccessful = new RequestLogin.RequestLoginBuilder().Email("eve.holt@reqres.in").build();
         Response response = requestHelper.performRequest(RequestMethodType.POST_METHOD, baseURL+ RequestURLType.POST_LOGIN, requestLoginUnsuccessful);
+
+        String ExpectedError = "Missing password";
         responseHelper = new ResponseHelper(response);
-        responseHelper.validateResponse(ResponseBodyType.RESPONSE_LOGIN, ResponseCodeType.STATUS_400);
+        responseHelper.validateResponse(ResponseBodyType.RESPONSE_LOGIN, ResponseCodeType.STATUS_400, ExpectedError);
         responseHelper.printResponseBody();
+
     }
 }

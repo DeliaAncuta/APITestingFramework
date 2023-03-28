@@ -1,15 +1,15 @@
 package ResponseObject.ResponseLogin;
 
-import ResponseObject.ResponseValidator;
+import ResponseObject.ResponseSpecificValidator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.testng.Assert;
 
-public class ResponseLoginFailed implements ResponseValidator {
+public class ResponseLoginFailed implements ResponseSpecificValidator {
     @JsonProperty("error")
     public String Error;
 
-
-    public void validateResponse() {
-        Assert.assertNotNull(Error);
+    @Override
+    public void validateResponse(String Expected) {
+        Assert.assertNotNull(Error, Expected);
     }
 }
